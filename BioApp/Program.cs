@@ -49,11 +49,14 @@ namespace BioApp
             }
         }
 
+        // hjälpfunktion för att skriva ut felmeddelande till användare.
+        // Standardmeddelande och valfri extratext.
         private static void InfoFelInmatning(string extra = "")
         {
             Console.WriteLine($"Felaktig inmatning! Försök igen. {extra}");
         }
-
+        
+        //Bokar enstaka biljett. Returnarar pris beroende på biljettyp.  
         private static int BokaBiljett()
         {
             int ålder;
@@ -70,6 +73,7 @@ namespace BioApp
             return pris;
         }
 
+        // Bokar ett helt sällskap.
         private static void BokaGrupp()
         {
             int antal = 0, totalPris = 0;
@@ -91,6 +95,7 @@ namespace BioApp
             Console.WriteLine($"Ni är {antal} personer. Kostnad för hela sällskapet: {totalPris}.");
         }
 
+        // Biljetttyp och pris baserat på ålder.
         private static (string, int) BiljettPris(int ålder)
         {
             if (ålder < 20)
