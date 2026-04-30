@@ -7,7 +7,8 @@ namespace BioApp
     internal class Program
     {
         private const string meny = "0 - Avsluta programmet\n" + 
-                                    "1 - Boka. (Du får ange din ålder för ungdoms- eller pemsionärspris.)";
+                                    "1 - Boka. (Du får ange din ålder för ungdoms- eller pemsionärspris.)\n" +
+                                    "2 - Boka sällskap.";
         
         static void Main(string[] args)
         {
@@ -17,14 +18,15 @@ namespace BioApp
 
             while (true)
             {
-                Console.WriteLine("±nHuvudmeny:\n- Du navigerar i menyn genom att skriva in siffran för önskat menyval.");
+                Console.WriteLine(
+                    "\nHuvudmeny:\n- Du navigerar i menyn genom att skriva in siffran för önskat menyval.");
                 Console.WriteLine(meny);
                 Console.Write("Val: ");
-                
+
                 bool inputOk = int.TryParse(Console.ReadLine(), out menyVal);
                 if (!inputOk)
                 {
-                    Console.WriteLine(("Felaktig inmatning! Försök igen."));
+                    InfoFelInmatning();
                     continue;
                 }
 
@@ -37,28 +39,56 @@ namespace BioApp
                     case 1:
                         BokaBiljett();
                         break;
+                    case 2:
+                        BokaGrupp();
+                        break;
                     default:
-                        Console.WriteLine(("Felaktig inmatning! Försök igen."));
+                        InfoFelInmatning();
                         break;
                 }
             }
-
-
         }
 
-        private static void BokaBiljett()
+        private static void InfoFelInmatning(string extra = "")
+        {
+            Console.WriteLine($"Felaktig inmatning! Försök igen. {extra}");
+        }
+
+        private static int BokaBiljett()
         {
             int ålder;
 
-            Console.Write("Ange din ålder: ");
+            Console.Write("Ange besökarens ålder: ");
             if (!int.TryParse(Console.ReadLine(), out ålder))
             {
-                Console.WriteLine("Felaktig inmatning. Du anger din ålder med siffror.");
-                return;
+                InfoFelInmatning("Du anger ålder med siffror.");
+                return -1;
             }
 
             (string biljett, int pris) = BiljettPris(ålder);
             Console.WriteLine($"{biljett}: {pris}kr");
+            return pris;
+        }
+
+        private static void BokaGrupp()
+        {
+            int antal = 0, totalPris = 0;
+            Console.WriteLine("Hur många ingår i sällskapet? ");
+            if (!int.TryParse(Console.ReadLine(), out antal))
+            {
+                InfoFelInmatning("Ge mig antal biljetter du vill boka.");
+                return; 
+            }
+            for (int i=0; i<antal; i++)
+            {
+                int pris = BokaBiljett();
+                if (pris < 0)
+                {
+                    return;
+                }
+                totalPris += pris;
+            }
+            Console.WriteLine($"Ni är {antal} personer. Kostnad för hela sällskapet: {totalPris}.");
         }
 
         private static (string, int) BiljettPris(int ålder)
