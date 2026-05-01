@@ -15,7 +15,7 @@ namespace BioApp
         static void Main(string[] args)
         {
             int menyVal = 0;
-            
+ // Här borde man ropa på en metod som skriver ut vilka filer som är på G just nu           
             Console.WriteLine("*** Välkommen till bokningssystemet ***");
 
             while (true)
@@ -44,6 +44,7 @@ namespace BioApp
                     case 2:
                         BokaGrupp();
                         break;
+// Här kanske ett case för att skriva ut biljett(er) eller få skickad på epost/sms
                     case 3:
                         Recension();
                         break;
