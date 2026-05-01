@@ -8,7 +8,8 @@ namespace BioApp
     {
         private const string meny = "0 - Avsluta programmet\n" + 
                                     "1 - Boka. (Du får ange din ålder för ungdoms- eller pemsionärspris.)\n" +
-                                    "2 - Boka sällskap.";
+                                    "2 - Boka sällskap.\n" +
+                                    "3 - Recension (Skriv en kort text om vad du tyckte om filmen)";
         
         static void Main(string[] args)
         {
@@ -42,11 +43,28 @@ namespace BioApp
                     case 2:
                         BokaGrupp();
                         break;
+                    case 3:
+                        Recension();
+                        break;
                     default:
                         InfoFelInmatning();
                         break;
                 }
             }
+        }
+
+        private static void Recension()
+        {
+            string? recension = "";
+            Console.Write("Skriv en mening om vad du tyckte om filmen.\n> ");
+            recension = Console.ReadLine();
+
+            Console.WriteLine("Du tycker alltså:");
+            for (int i=0; i<10; i++)
+            {
+                Console.Write(recension);
+                if (i<9) Console.Write(" ");
+            }            
         }
 
         // hjälpfunktion för att skriva ut felmeddelande till användare.
