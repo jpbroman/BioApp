@@ -1,6 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-
+﻿
 using System;
+using System.Text.RegularExpressions;
 
 namespace BioApp
 {
@@ -9,7 +9,8 @@ namespace BioApp
         private const string meny = "0 - Avsluta programmet\n" + 
                                     "1 - Boka. (Du får ange din ålder för ungdoms- eller pemsionärspris.)\n" +
                                     "2 - Boka sällskap.\n" +
-                                    "3 - Recension (Skriv en kort text om vad du tyckte om filmen)";
+                                    "3 - Recension (Skriv en kort text om vad du tyckte om filmen)\n" +
+                                    "4 - Vad tycker du om BioAppen? (Skriv en rad. Minst tre ord)";
         
         static void Main(string[] args)
         {
@@ -46,10 +47,36 @@ namespace BioApp
                     case 3:
                         Recension();
                         break;
+                    case 4:
+                        Omdöme();
+                        break;
                     default:
                         InfoFelInmatning();
                         break;
                 }
+            }
+        }
+
+        private static void Omdöme()
+        {
+            Console.Write("Skriv vad du tycker om BioAppen. (Minst tre ord)\n> ");
+            string? omdöme = Console.ReadLine();
+            if (omdöme is null || omdöme.Equals("")) // säkerställ att vi har inmatning
+            {
+                Console.WriteLine("Skriv minst tre ord.");
+                return;
+            }
+            // Ta bort multipla mellanslag
+            omdöme = Regex.Replace(omdöme, @"\s+", " ");
+
+            string[] omdömeArray = omdöme.Split(null);
+            try {
+                Console.WriteLine($"3e ordet är: {omdömeArray[2]}");
+            }
+            catch (IndexOutOfRangeException)  // fånga felfallet färre än tre ord
+            {
+                Console.WriteLine("Jag bad om tre ord.");
+                return;
             }
         }
 
@@ -74,11 +101,15 @@ namespace BioApp
             Console.WriteLine($"Felaktig inmatning! Försök igen. {extra}");
         }
         
-        //Bokar enstaka biljett. Returnarar pris beroende på biljettyp.  
-        private static int BokaBiljett()
+        //Bokar enstaka biljett. Returnarar pris beroende på biljettyp   
+        private static int BokaBiljett(int n=0)
         {
             int ålder;
 
+            if (n > 0)  // Hantera ledtext för gruppbokning
+            {
+                Console.Write($"Person {n}. ");
+            }
             Console.Write("Ange besökarens ålder: ");
             if (!int.TryParse(Console.ReadLine(), out ålder))
             {
@@ -103,7 +134,7 @@ namespace BioApp
             }
             for (int i=0; i<antal; i++)
             {
-                int pris = BokaBiljett();
+                int pris = BokaBiljett(i+1);
                 if (pris < 0)
                 {
                     return;
