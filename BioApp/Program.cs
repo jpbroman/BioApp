@@ -90,8 +90,7 @@ namespace BioApp
             Console.WriteLine("Du tycker alltså:");
             for (int i=0; i<10; i++)
             {
-                Console.Write(recension);
-                if (i<9) Console.Write(" ");
+                Console.Write($"{recension} ");
             }            
         }
 
