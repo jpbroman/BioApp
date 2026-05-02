@@ -114,7 +114,7 @@ namespace BioApp
             if (!int.TryParse(Console.ReadLine(), out ålder))
             {
                 InfoFelInmatning("Du anger ålder med siffror.");
-                return -1;
+                return 0;
             }
 
             (string biljett, int pris) = BiljettPris(ålder);
